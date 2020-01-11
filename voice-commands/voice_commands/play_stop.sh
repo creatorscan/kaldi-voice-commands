@@ -35,6 +35,7 @@ echo "
 RECOGNIZING THE VOICE"
 notify-send "Testing voice command... " "Please wait"
 bash online_decode.sh /tmp/voice_"$PID".wav 
+JSON=`cat out.parsed`
 #JSON=`curl -s -X POST \
 #--data-binary @/tmp/voice_"$PID".flac \
 #--header 'Content-Type: audio/x-flac; rate=16000;' \
@@ -101,7 +102,7 @@ PID=$(cat /tmp/process_result)
 killall notify-osd 2>/dev/null
 echo "echo -n "'"'"                                "'"'"\\\\r" > /tmp/if_internal_active
 ports=$(pacmd list-sources | grep "active port")
-if echo "$ports" | grep -q -v "active port: <analog-input-microphone>\|active port: <analog-input-microphone;"; then
+if echo "$ports" | grep -q -v "active port: <analog-input-internal-mic>\|active port: <analog-input-internal-mic;"; then
 v-c -mic "$microphe_port" >/tmp/port_errors
 if sed -n '2p' /tmp/port_errors | grep -q -v "The configuration of microphone, now is with this ports:"; then
 cat /tmp/port_errors
